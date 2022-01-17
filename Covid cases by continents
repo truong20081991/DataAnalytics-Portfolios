@@ -1,1 +1,63 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
+import pandas as pd
+import numpy as np
+
+
+# In[2]:
+
+
+#import data
+df = pd.read_csv('Desktop/owid-covid-data.csv')
+
+
+# In[3]:
+
+
+# only get 4 columns
+df = df.loc[:,['continent','location','total_cases','date']]
+
+
+# In[4]:
+
+
+# convert Object column to datetime column
+df['date'] = pd.to_datetime(df['date'])
+
+
+# In[5]:
+
+
+df.head()
+
+
+# In[6]:
+
+
+#pivot table by index 'date' and set columns are continent's values
+df1 = pd.pivot_table(df,index=['date'],columns=['continent'],aggfunc={'total_cases':np.sum})
+
+
+# In[7]:
+
+
+#fill NaN value = 0
+df1 = df1.fillna(0)
+
+
+# In[8]:
+
+
+df1.head()
+
+
+# In[9]:
+
+
+#drop column's title total_cases
+df1.columns = df1.columns.droplevel()
 
